@@ -1,13 +1,13 @@
 module.exports = function(grunt) {
 
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);  
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         connect: {
             server: {
                 options: {
-                    port: 7000                    
+                    port: 7000
                   }
             }
         },
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
                     cwd: './',
                     dest: 'dist/',
                     src: [
-                        '*.html'                        
+                        'temp/*.html'
                     ],
                     filter: 'isFile'
                 }]
@@ -68,19 +68,47 @@ module.exports = function(grunt) {
           }
         },
         usemin: {
-          html: 'dist/index.html',
+          html: 'dist/*.html',
           options: {
               dirs: ['dist/']
-          }         
+          }
         },
         open: {
           server: {
-            path: 'http://localhost:<%= connect.server.options.port %>'
+            path: 'http://127.0.0.1:<%= connect.server.options.port %>',
+            app: 'Chrome'
           }
+        },
+        autoprefixer: {
+          options: {
+            browsers: ['last 2 versions']
+          },
+          multiple_files: {
+            expand: true,
+            flatten: true,
+            src: 'dist/css/*.css',
+            dest: 'dist/css/prefixed/'
+          }
+        },
+        /*preprocess : {
+          options : {
+              context : { ENV : 'production' }
+          },          
+          prod : {            
+            src : 'index.html',
+            dest : 'temp/index.prod.html'
+          }
+        },*/
+        clean: {
+          tmp: '.tmp',
+          dist: 'dist'
         }
     });
 
-    grunt.registerTask('dist', ['copy', 'useminPrepare', 'usemin', 'concat', 'uglify']);
-        
-    grunt.registerTask('default', ['jshint', 'csslint', 'dist', 'connect', 'open', 'watch']);
+    grunt.registerTask('dist', ['clean:dist', 'copy', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', ]);
+    //grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', ]);
+
+    grunt.registerTask('format', ['jshint', 'csslint']);
+    
+    grunt.registerTask('default', ['format', 'dist', 'autoprefixer', 'connect', 'clean:tmp', 'open', 'watch']);
 }

@@ -1,5 +1,5 @@
-- autoprefixer
 - imagemin
+- preprocess
 - bower
 - clean
 - in dist remove livereload
