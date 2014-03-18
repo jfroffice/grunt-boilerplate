@@ -1,0 +1,22 @@
+{
+  "name": "grunt-boilerplate",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jfroffice/grunt-boilerplate",
+  "authors": [
+    "John FISCHER <me@jfroffice.me>"
+  ],
+  "dependencies": {
+    "angular": "*"
+  },
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

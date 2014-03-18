@@ -47,15 +47,26 @@ module.exports = function(grunt) {
                 }
             }
         },
+        autoprefixer: {
+          options: {
+            browsers: ['last 2 versions']
+          },
+          multiple_files: {
+            expand: true,
+            flatten: true,
+            src: 'dist/css/*.css',
+            dest: 'dist/css/prefixed/'
+          }
+        },
         copy: {
-            dist: {
+            html: {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: './',
+                    cwd: 'preprocess',
                     dest: 'dist/',
                     src: [
-                        'temp/*.html'
+                        '*.html'
                     ],
                     filter: 'isFile'
                 }]
@@ -79,36 +90,58 @@ module.exports = function(grunt) {
             app: 'Chrome'
           }
         },
-        autoprefixer: {
-          options: {
-            browsers: ['last 2 versions']
-          },
-          multiple_files: {
-            expand: true,
-            flatten: true,
-            src: 'dist/css/*.css',
-            dest: 'dist/css/prefixed/'
-          }
-        },
-        /*preprocess : {
+        preprocess : {
           options : {
               context : { ENV : 'production' }
-          },          
-          prod : {            
+          },
+          prod : {
             src : 'index.html',
-            dest : 'temp/index.prod.html'
+            dest : 'preprocess/index.html'
           }
-        },*/
+        },
         clean: {
-          tmp: '.tmp',
+          tmp: ['.tmp', 'preprocess'],
           dist: 'dist'
+        },
+        bower: {
+          install: {
+            options: {
+              targetDir: "components"
+            }
+          }
+        },
+        imagemin: {
+            png: {
+                options: {
+                    optimizationLevel: 3
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'img',
+                    src: ['**/*.png'],
+                    dest: 'dist/img/',
+                    ext: '.png'
+                }]
+            },
+            jpg: {
+                options: {
+                    optimizationLevel: 3,
+                    progressive: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'img',
+                    src: ['**/*.jpg'],
+                    dest: 'dist/img/',
+                    ext: '.jpg'
+                }]
+            }
         }
     });
 
-    grunt.registerTask('dist', ['clean:dist', 'copy', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', ]);
-    //grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', ]);
+    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', 'imagemin']);
 
     grunt.registerTask('format', ['jshint', 'csslint']);
-    
-    grunt.registerTask('default', ['format', 'dist', 'autoprefixer', 'connect', 'clean:tmp', 'open', 'watch']);
+
+    grunt.registerTask('default', ['bower', 'format', 'dist', 'autoprefixer', 'connect', 'clean:tmp', 'open', 'watch']);
 }
