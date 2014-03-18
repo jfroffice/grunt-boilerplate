@@ -68,7 +68,19 @@ module.exports = function(grunt) {
                     ],
                     filter: 'isFile'
                 }]
-            }
+            },
+            img: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: 'img',
+                    dest: 'dist/img/',
+                    src: [
+                        '*.{png,jpg}'
+                    ],
+                    filter: 'isFile'
+                }]
+            },
         },
         useminPrepare: {
           src: 'index.html',
@@ -77,7 +89,7 @@ module.exports = function(grunt) {
           }
         },
         usemin: {
-          html: 'dist/*.html',
+          html: 'dist/**/*.{html,js,css}',
           options: {
               dirs: ['dist/']
           }
@@ -137,16 +149,16 @@ module.exports = function(grunt) {
         },
         rev: {
           options: {
-            algorithm: 'sha1',
-            length: 4
+            algorithm: 'md5',
+            length: 5
           },
           files: {
-            src: ['img/*.png']
+            src: ['dist/img/*.png']
           }
         }
     });
 
-    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'rev', 'usemin', 'concat', 'uglify', 'cssmin', 'imagemin', 'autoprefixer', 'clean:tmp']);
+    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'copy:img', 'rev', 'usemin', 'autoprefixer', 'clean:tmp']); // 
 
     grunt.registerTask('check', ['bower', 'jshint', 'csslint']);
 
