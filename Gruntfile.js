@@ -34,14 +34,12 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: ['js/*.js'],
-                tasks: ['jshint'],
                 options: {
                   livereload: true,
                 }
             },
             css: {
                 files: ['css/*.css'],
-                tasks: ['csslint'],
                 options: {
                   livereload: true,
                 }
@@ -139,9 +137,13 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', 'imagemin']);
+    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', 'imagemin', 'autoprefixer', 'clean:tmp']);
 
-    grunt.registerTask('format', ['jshint', 'csslint']);
+    grunt.registerTask('check', ['bower', 'jshint', 'csslint']);
 
-    grunt.registerTask('default', ['bower', 'format', 'dist', 'autoprefixer', 'connect', 'clean:tmp', 'open', 'watch']);
+    grunt.registerTask('launch', ['connect', 'open', 'watch']);
+
+    grunt.registerTask('prod', ['check', 'dist', 'launch']);
+    
+    grunt.registerTask('default', ['launch']);
 }
