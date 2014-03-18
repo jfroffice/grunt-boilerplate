@@ -134,10 +134,19 @@ module.exports = function(grunt) {
                     ext: '.jpg'
                 }]
             }
+        },
+        rev: {
+          options: {
+            algorithm: 'sha1',
+            length: 4
+          },
+          files: {
+            src: ['img/*.png']
+          }
         }
     });
 
-    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'usemin', 'concat', 'uglify', 'cssmin', 'imagemin', 'autoprefixer', 'clean:tmp']);
+    grunt.registerTask('dist', ['clean:dist', 'preprocess:prod', 'copy:html', 'useminPrepare', 'rev', 'usemin', 'concat', 'uglify', 'cssmin', 'imagemin', 'autoprefixer', 'clean:tmp']);
 
     grunt.registerTask('check', ['bower', 'jshint', 'csslint']);
 
