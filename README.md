@@ -1,7 +1,7 @@
 grunt-boilerplate
 =================
 
-v0.1
+v0.2
 
 Install
 -------
@@ -23,7 +23,7 @@ Scope
 - autoprefixer
 - usemin / concat / uglify / cssmin
 - imagemin
-
+- sass
 
 Roadmap
 -------

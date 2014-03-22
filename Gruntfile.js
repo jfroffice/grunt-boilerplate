@@ -43,6 +43,10 @@ module.exports = function(grunt) {
                 options: {
                   livereload: true,
                 }
+            },
+            scss: {
+                files: ['scss/*.scss'],
+                tasks: ['sass']                
             }
         },
         autoprefixer: {
@@ -154,6 +158,17 @@ module.exports = function(grunt) {
           },
           files: {
             src: ['dist/img/*.png']
+          }
+        },
+        sass: {
+          dist: {
+            files: [{
+              expand: true,
+              cwd: 'scss',
+              src: ['*.scss'],
+              dest: 'css/',
+              ext: '.css'
+            }]
           }
         }
     });
