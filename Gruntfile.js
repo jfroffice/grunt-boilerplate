@@ -98,12 +98,6 @@ module.exports = function(grunt) {
             dirs: ['dist/']
         }
       },
-      open: {
-        server: {
-          path: 'http://127.0.0.1:<%= connect.server.options.port %>',
-          app: 'Chrome'
-        }
-      },
       preprocess : {
         options : {
             context : { ENV : 'production' }
@@ -177,7 +171,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('check', ['bower', 'jshint', 'csslint']);
 
-    grunt.registerTask('launch', ['connect', 'open', 'watch']);
+    grunt.registerTask('launch', ['connect', 'watch']);
 
     grunt.registerTask('prod', ['check', 'dist', 'launch']);
     

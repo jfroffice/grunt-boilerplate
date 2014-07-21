@@ -27,5 +27,4 @@ Scope
 
 Roadmap
 -------
-v0.2
 - better manage prefixed files
